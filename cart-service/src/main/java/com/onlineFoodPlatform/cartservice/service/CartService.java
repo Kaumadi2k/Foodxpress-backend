@@ -7,21 +7,24 @@ import com.onlineFoodPlatform.cartservice.model.Cart;
 import com.onlineFoodPlatform.cartservice.model.CartItem;
 import com.onlineFoodPlatform.cartservice.repository.CartItemRepository;
 import com.onlineFoodPlatform.cartservice.repository.CartRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
 @Service
+
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, WebClient webClient) {
+    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, WebClient.Builder webClientBuilder) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.webClient = webClient;
+        //this.webClient = webClient;
+        this.webClientBuilder = webClientBuilder;
     }
 
     public void createCart(CartRequest cartRequest){
@@ -50,8 +53,8 @@ public class CartService {
           Cart cart = optionalCart.get();
 
         //Get product details from product microservice to add the product to cart
-            ProductResponse productResponse = webClient.get()
-                    .uri("http://localhost:8080/api/v1/product/"+cartItemDto.getProduct_id())
+            ProductResponse productResponse = webClientBuilder.build().get()
+                    .uri("http://product-service/api/v1/product/"+cartItemDto.getProduct_id())
                     .retrieve()
                     .bodyToMono(ProductResponse.class)
                     .block();
