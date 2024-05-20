@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,13 @@ public class CategoryService {
                 .categoryName(category.getCategoryName())
                 .categoryDescription(category.getCategoryDescription())
                 .build();
+    }
+
+    public CategoryDto getCategoryById(String categoryId){
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        return new CategoryDto(
+                category.get().getCategoryName(),
+                category.get().getCategoryDescription()
+        );
     }
 }

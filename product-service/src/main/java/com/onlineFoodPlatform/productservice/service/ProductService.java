@@ -21,7 +21,9 @@ public class ProductService {
         Product product = Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
-                .price(productRequest.getPrice())
+                .pricePerUnit(productRequest.getPricePerUnit())
+                .productUnit(productRequest.getProductUnit())
+                .categoryId(productRequest.getCategoryId())
                 .build();
 
         productRepository.save(product);
@@ -38,8 +40,10 @@ public class ProductService {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
-                .price(product.getPrice())
+                .pricePerUnit(product.getPricePerUnit())
                 .description(product.getDescription())
+                .categoryId(product.getCategoryId())
+                .productUnit(product.getProductUnit())
                 .build();
     }
 
@@ -49,7 +53,9 @@ public class ProductService {
                 product.get().getId(),
                 product.get().getName(),
                 product.get().getDescription(),
-                product.get().getPrice()
+                product.get().getPricePerUnit(),
+                product.get().getProductUnit(),
+                product.get().getCategoryId()
         );
 
     }
@@ -58,7 +64,7 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(productUpdate.getId());
         product.get().setName(productUpdate.getName());
         product.get().setDescription(productUpdate.getDescription());
-        product.get().setPrice(productUpdate.getPrice());
+        product.get().setPricePerUnit(productUpdate.getPricePerUnit());
 
         productRepository.save(product.get());
     }

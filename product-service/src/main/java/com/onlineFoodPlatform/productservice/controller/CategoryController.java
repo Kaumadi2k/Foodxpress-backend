@@ -23,4 +23,9 @@ public class CategoryController {
     public List<CategoryDto> getAllCategory(){
         return categoryService.getAllCategory();
     }
+
+    @GetMapping("/{id}")
+    public CategoryDto getCategoryById(@PathVariable String categoryId){
+        return categoryService.getCategoryById(categoryId);
+    }
 }
