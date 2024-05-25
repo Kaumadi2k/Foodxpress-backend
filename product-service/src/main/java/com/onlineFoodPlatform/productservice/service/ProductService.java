@@ -16,14 +16,17 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final FileStorageService fileStorageService;
 
     public void createProduct(ProductRequest productRequest){
+        String imageName = fileStorageService.storeFile(productRequest.getImage(),"product");
         Product product = Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
                 .pricePerUnit(productRequest.getPricePerUnit())
                 .productUnit(productRequest.getProductUnit())
                 .categoryId(productRequest.getCategoryId())
+                .imageUrl("uploads/products/"+imageName)
                 .build();
 
         productRepository.save(product);

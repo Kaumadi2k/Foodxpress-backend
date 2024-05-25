@@ -19,6 +19,7 @@
         <module>product-service</module>
         <module>cart-service</module>
         <module>discovery-server</module>
+        <module>api-gatway</module>
     </modules>
 
     <properties>

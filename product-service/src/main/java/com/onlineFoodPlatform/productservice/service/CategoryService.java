@@ -5,6 +5,7 @@ import com.onlineFoodPlatform.productservice.model.Category;
 import com.onlineFoodPlatform.productservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +14,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final FileStorageService fileStorageService;
 
-    public void addCategory(CategoryDto categoryDto){
+    public void addCategory(String categoryName, String categoryDescription, MultipartFile file){
+        String fileName = fileStorageService.storeFile(file,"category");
         Category category = Category.builder()
-                .categoryName(categoryDto.getCategoryName())
-                .categoryDescription(categoryDto.getCategoryDescription())
+                .categoryName(categoryName)
+                .categoryDescription(categoryDescription)
+                .imgUrl(fileName)
                 .build();
 
         categoryRepository.save(category);
