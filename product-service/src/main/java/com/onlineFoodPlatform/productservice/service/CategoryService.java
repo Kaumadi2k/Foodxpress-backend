@@ -1,11 +1,13 @@
 package com.onlineFoodPlatform.productservice.service;
 
 import com.onlineFoodPlatform.productservice.dto.CategoryDto;
+import com.onlineFoodPlatform.productservice.dto.CategoryResponse;
 import com.onlineFoodPlatform.productservice.model.Category;
 import com.onlineFoodPlatform.productservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,15 +29,20 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    public List<CategoryDto> getAllCategory(){
+    public List<CategoryResponse> getAllCategory(){
         List<Category> categoryList = categoryRepository.findAll();
-        return categoryList.stream().map(this::mapToCategoryDto).toList();
+        return categoryList.stream().map(this::mapToCategoryResponse).toList();
     }
 
-    private CategoryDto mapToCategoryDto(Category category) {
-        return CategoryDto.builder()
+    private CategoryResponse mapToCategoryResponse(Category category) {
+        String imgPath = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/v1/files/category/")
+                .path(category.getImgUrl())
+                .toUriString();
+        return CategoryResponse.builder()
                 .categoryName(category.getCategoryName())
                 .categoryDescription(category.getCategoryDescription())
+                .imgUrl(imgPath)
                 .build();
     }
 

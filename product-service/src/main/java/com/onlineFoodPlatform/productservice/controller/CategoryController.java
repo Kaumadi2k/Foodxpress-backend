@@ -1,6 +1,7 @@
 package com.onlineFoodPlatform.productservice.controller;
 
 import com.onlineFoodPlatform.productservice.dto.CategoryDto;
+import com.onlineFoodPlatform.productservice.dto.CategoryResponse;
 import com.onlineFoodPlatform.productservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("api/v1/category")
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryDto> getAllCategory(){
+    public List<CategoryResponse> getAllCategory(){
         return categoryService.getAllCategory();
     }
 

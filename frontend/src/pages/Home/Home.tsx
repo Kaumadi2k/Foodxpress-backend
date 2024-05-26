@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Home.css'
-import { Card, Box, CardContent, Typography, CardMedia, Button, Grid, Container } from '@mui/material'
+import { Card, Box, CardContent, Typography, CardMedia, Button, Grid,TextField,InputAdornment } from '@mui/material'
 import { assets } from '../../assets/assets'
 import theme from '../../theme'
+import { listCategory } from '../../services/productService'
+import { Search } from '@mui/icons-material'
+
+
 
 const Home = () => {
+
+  const [category, setCategory] = useState([]);
+
+  useEffect(()=>{
+    listCategory().then((response)=>{
+      setCategory(response.data);
+    }).catch(error=>{
+      console.error(error);
+    })
+  }, [])
+  
   return (
     <div className='homeContent'>
     <Card sx={{display:'flex',padding:2,boxShadow:'none'}}>
@@ -23,43 +38,36 @@ const Home = () => {
         alt='header image'/>
     </Card>
     
-    <Grid container spacing={2} p={2} marginLeft={0}>
-        <Grid item xs={12} sm={6} md={4} style={{ border: '1px solid red' }}>
-          <Box display="flex" flexDirection="column" alignItems="center">
+    <Grid container spacing={2} marginLeft={0}>
+      {category.map(category=>
+        <Grid item  style={{cursor:'pointer' }}>
+          <Box display="flex" flexDirection="column" alignItems="center" margin={1} padding={1}>
             <img
-              src={assets.food_1}
-              alt='fast food'
-              style={{ borderRadius: '50%', width: '100%', maxWidth: '200px', height: 'auto' }}
+              src={category.imgUrl}
+              style={{ borderRadius: '60%', width: '100%', maxWidth: '100px', height:'auto'}}
             />
             <Typography variant="subtitle1" align="center" mt={2}>
-              Fast Food
+              {category.categoryName}
             </Typography>
           </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} style={{ border: '1px solid red' }}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              src={assets.food_2}
-              alt='vegetables'
-              style={{ borderRadius: '50%', width: '100%', maxWidth: '200px', height: 'auto' }}
-            />
-            <Typography variant="subtitle1" align="center" mt={2}>
-              Vegetables
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} style={{ border: '1px solid red' }}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              src={assets.food_3}
-              alt='Salad'
-              style={{ borderRadius: '50%', width: '100%', maxWidth: '200px', height: 'auto' }}
-            />
-            <Typography variant="subtitle1" align="center" mt={2}>
-              Salad
-            </Typography>
-          </Box>
-        </Grid>
+      </Grid>
+      )}
+      <Grid item style={{display:'flex',alignItems:'center'}}>
+        <TextField fullWidth
+            id="filled-search"
+            label="Search Food Products"
+            type="search"
+            variant="outlined"
+            style={{width:'400px',marginLeft:'50px'}}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+        />
+      </Grid>
     </Grid>
     </div>
   )
