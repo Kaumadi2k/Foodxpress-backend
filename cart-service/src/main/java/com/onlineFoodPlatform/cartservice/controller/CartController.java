@@ -24,4 +24,10 @@ public class CartController {
         return "Product added to cart successfully";
     }
 
+    @DeleteMapping("/{cart_id}")
+    public String deleteCart(@PathVariable long cart_id){
+        cartService.deleteCart(cart_id);
+        return "Cart successfully deleted";
+    }
+
 }

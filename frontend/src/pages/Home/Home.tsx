@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import './Home.css'
 import { Card, Box, CardContent, Typography, CardMedia, Button, Grid,TextField,InputAdornment } from '@mui/material'
 import { assets } from '../../assets/assets'
-import theme from '../../theme'
+
 import { listCategory } from '../../services/productService'
 import { Search } from '@mui/icons-material'
+import Product from '../../components/Product'
 
 
 
@@ -69,6 +70,10 @@ const Home = () => {
         />
       </Grid>
     </Grid>
+    <Grid container spacing={0}>
+      <Product/>
+    </Grid>
+    
     </div>
   )
 }

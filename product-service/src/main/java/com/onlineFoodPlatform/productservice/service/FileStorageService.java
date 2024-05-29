@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 public class FileStorageService {
-    @Value("${file.upload-dir-product")
+    @Value("${file.upload-dir-product}")
     private String uploadDirProduct;
 
     @Value("${file.upload-dir-category}")
@@ -27,7 +27,7 @@ public class FileStorageService {
 
         try {
             Path copyLocation = Paths.get(uploadDir).resolve(fileName).normalize();
-            // Ensure the directories exist
+
             Files.createDirectories(copyLocation.getParent());
             Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
             return fileName;
@@ -36,8 +36,8 @@ public class FileStorageService {
         }
     }
 
-    public Path loadFile(String fileName, String type){
-        String uploadDir = type.equals("category") ? uploadDirCategory : uploadDirProduct;
-        return Paths.get(uploadDir).resolve(fileName);
-    }
+//    public Path loadFile(String fileName, String type){
+//        String uploadDir = type.equals("category") ? uploadDirCategory : uploadDirProduct;
+//        return Paths.get(uploadDir).resolve(fileName);
+//    }
 }

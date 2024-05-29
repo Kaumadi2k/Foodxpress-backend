@@ -7,7 +7,11 @@ import com.onlineFoodPlatform.productservice.model.Product;
 import com.onlineFoodPlatform.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,15 +22,15 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final FileStorageService fileStorageService;
 
-    public void createProduct(ProductRequest productRequest){
-        String imageName = fileStorageService.storeFile(productRequest.getImage(),"product");
+    public void createProduct(String productName, String productDescription, BigDecimal pricePerUnit, String categoryId, String priceUnit, MultipartFile image){
+        String imageName = fileStorageService.storeFile(image,"product");
         Product product = Product.builder()
-                .name(productRequest.getName())
-                .description(productRequest.getDescription())
-                .pricePerUnit(productRequest.getPricePerUnit())
-                .productUnit(productRequest.getProductUnit())
-                .categoryId(productRequest.getCategoryId())
-                .imageUrl("uploads/products/"+imageName)
+                .name(productName)
+                .description(productDescription)
+                .pricePerUnit(pricePerUnit)
+                .productUnit(priceUnit)
+                .categoryId(categoryId)
+                .imageUrl(imageName)
                 .build();
 
         productRepository.save(product);
@@ -40,6 +44,10 @@ public class ProductService {
     }
 
     private ProductResponse mapToProductResponse(Product product) {
+        String imgPath = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/v1/files/product/")
+                .path(product.getImageUrl())
+                .toUriString();
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -47,19 +55,21 @@ public class ProductService {
                 .description(product.getDescription())
                 .categoryId(product.getCategoryId())
                 .productUnit(product.getProductUnit())
+                .imgUrl(imgPath)
                 .build();
     }
 
     public ProductResponse getProduct(String id){
         Optional<Product> product = productRepository.findById(id);
-        return new ProductResponse(
-                product.get().getId(),
-                product.get().getName(),
-                product.get().getDescription(),
-                product.get().getPricePerUnit(),
-                product.get().getProductUnit(),
-                product.get().getCategoryId()
-        );
+        Product product1 = product.get();
+        return ProductResponse.builder()
+                .id(product1.getId())
+                .name(product1.getName())
+                .description(product1.getDescription())
+                .productUnit(product1.getProductUnit())
+                .pricePerUnit(product1.getPricePerUnit())
+                .imgUrl(product1.getImageUrl())
+                .build();
 
     }
 

@@ -1,9 +1,6 @@
 package com.onlineFoodPlatform.productservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -11,6 +8,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ProductResponse {
     private String id;
     private String name;
@@ -18,7 +16,8 @@ public class ProductResponse {
     private BigDecimal pricePerUnit;
     private String categoryId;
     private String productUnit;
+    private String imgUrl;
 
-    public ProductResponse(String id, String name, String description, BigDecimal pricePerUnit, String productUnit) {
+    public ProductResponse(String id, String name, String description, BigDecimal pricePerUnit, String productUnit, String categoryId) {
     }
 }

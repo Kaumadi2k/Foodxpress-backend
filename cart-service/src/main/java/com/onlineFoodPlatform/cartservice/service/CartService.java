@@ -32,19 +32,8 @@ public class CartService {
         cart.setCart_name(cartRequest.getCart_name());
         cart.setUser_id(cartRequest.getUser_id());
 
-//        List<CartItem> cartItems = cartRequest.getCartItemDtoList()
-//                .stream()
-//                .map(this::mapToDto)
-//                .toList();
-//        cart.setCartItemList(cartItems);
         cartRepository.save(cart);
 
-        //Add a product to cart getting from product microservice
-//        webClient.get()
-//                .uri("http://localhost:8080/api/v1/product")
-//                .retrieve()
-//                .bodyToMono(ProductResponse.class)
-//                .block();
     }
 
     public void addProductToCart(long cart_id,CartItemDto cartItemDto){
@@ -63,7 +52,7 @@ public class CartService {
             cartItem.setProduct_id(productResponse.getId());
             cartItem.setProduct_name(productResponse.getName());
             cartItem.setQuantity(cartItemDto.getQuantity());
-            cartItem.setPrice(productResponse.getPrice());
+            cartItem.setPrice(productResponse.getPricePerUnit());
 
             //add cartItem to cart
             cart.getCartItemList().add(cartItem);
@@ -73,6 +62,11 @@ public class CartService {
         else {
             throw new RuntimeException("Cart Not found");
         }
+    }
+
+    public void deleteCart(long cart_id){
+        Optional<Cart> cart = cartRepository.findById(cart_id);
+        cartRepository.delete(cart.get());
     }
 
 
