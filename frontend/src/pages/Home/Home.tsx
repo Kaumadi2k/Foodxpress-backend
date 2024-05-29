@@ -34,32 +34,21 @@ const Home = () => {
       </Box>
       <CardMedia
         component="img"
-        sx={{width:700, borderTopLeftRadius:0,borderBottomLeftRadius:0}}
+        style={{borderTopRightRadius:8, borderBottomRightRadius:8}}
+        sx={{width:700}}
         image={assets.header_img}
         alt='header image'/>
     </Card>
-    
-    <Grid container spacing={2} marginLeft={0}>
-      {category.map(category=>
-        <Grid item  style={{cursor:'pointer' }}>
-          <Box display="flex" flexDirection="column" alignItems="center" margin={1} padding={1}>
-            <img
-              src={category.imgUrl}
-              style={{ borderRadius: '60%', width: '100%', maxWidth: '100px', height:'auto'}}
-            />
-            <Typography variant="subtitle1" align="center" mt={2}>
-              {category.categoryName}
-            </Typography>
-          </Box>
-      </Grid>
-      )}
+
+    <Grid container spacing={0} style={{marginLeft:'20px',marginBottom:'20px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <Typography variant='h5' align='center' color='primary'>Shop by Categories</Typography>
       <Grid item style={{display:'flex',alignItems:'center'}}>
         <TextField fullWidth
             id="filled-search"
             label="Search Food Products"
             type="search"
             variant="outlined"
-            style={{width:'400px',marginLeft:'50px'}}
+            style={{width:'400px',marginRight:'30px'}}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -69,6 +58,22 @@ const Home = () => {
             }}
         />
       </Grid>
+    </Grid>
+    
+    <Grid container spacing={1} marginLeft={0}>
+      {category.map(category=>
+        <Grid item  style={{cursor:'pointer' }}>
+          <Box display="flex" flexDirection="column" alignItems="center" margin={1} padding={1} justifyContent={'center'}>
+            <img
+              src={category.imgUrl}
+              style={{ borderRadius: '50%', width: '100%', maxWidth: '150px', height:'100%', maxHeight:'200px'}}
+            />
+            <Typography variant="subtitle1" align="center" mt={2}>
+              {category.categoryName}
+            </Typography>
+          </Box>
+      </Grid>
+      )}
     </Grid>
     <Grid container spacing={0}>
       <Product/>
