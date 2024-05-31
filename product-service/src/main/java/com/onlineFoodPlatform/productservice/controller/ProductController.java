@@ -55,4 +55,10 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
+    @GetMapping("/byCategory")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getProductByCategory(@RequestParam("categoryId") String categoryId){
+        return productService.getProductByCategory(categoryId);
+    }
+
 }

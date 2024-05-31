@@ -7,7 +7,6 @@ import com.onlineFoodPlatform.cartservice.model.Cart;
 import com.onlineFoodPlatform.cartservice.model.CartItem;
 import com.onlineFoodPlatform.cartservice.repository.CartItemRepository;
 import com.onlineFoodPlatform.cartservice.repository.CartRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -69,12 +68,8 @@ public class CartService {
         cartRepository.delete(cart.get());
     }
 
-
-//    private CartItem mapToDto(CartItemDto cartItemDto) {
-//        CartItem cartItem = new CartItem();
-//        cartItem.setProduct_id(cartItemDto.getProduct_id());
-//        cartItem.setProduct_name(cartItemDto.getProduct_name());
-//        cartItem.setQuantity(cartItemDto.getQuantity());
-//        return cartItem;
-//    }
+    public Optional<Cart> getCart(long cart_id){
+        Optional<Cart> cart =  cartRepository.findById(cart_id);
+        return cart;
+    }
 }

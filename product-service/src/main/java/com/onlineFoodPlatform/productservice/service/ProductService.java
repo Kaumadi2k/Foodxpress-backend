@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor //in compile time create the all the required constructors
@@ -86,4 +87,10 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
         productRepository.delete(product.get());
     }
+
+    public List<ProductResponse> getProductByCategory(String categoryId){
+        //findByCategory returns the list of products,that's why directly used it to map.
+        return productRepository.findByCategoryId(categoryId).stream().map(this::mapToProductResponse).toList();
+    }
+
 }

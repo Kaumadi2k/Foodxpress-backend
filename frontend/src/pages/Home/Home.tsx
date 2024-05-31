@@ -60,22 +60,22 @@ const Home = () => {
       </Grid>
     </Grid>
     
-    <Grid container spacing={1} marginLeft={0}>
-      {category.map(category=>
+    <Grid container spacing={1} marginLeft={0} justifyContent='space-around' marginBottom='20px'>
+      {category.map((category)=>
         <Grid item  style={{cursor:'pointer' }}>
-          <Box display="flex" flexDirection="column" alignItems="center" margin={1} padding={1} justifyContent={'center'}>
+          <Box className="boxContainer">
             <img
               src={category.imgUrl}
-              style={{ borderRadius: '50%', width: '100%', maxWidth: '150px', height:'100%', maxHeight:'200px'}}
+              className='categoryImage'
             />
-            <Typography variant="subtitle1" align="center" mt={2}>
+            <Typography variant="subtitle1" align="center" mt={2} className='categoryName'>
               {category.categoryName}
             </Typography>
           </Box>
-      </Grid>
+        </Grid>
       )}
     </Grid>
-    <Grid container spacing={0}>
+    <Grid container spacing={0} className='productContainer'>
       <Product/>
     </Grid>
     

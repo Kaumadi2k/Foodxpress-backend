@@ -2,9 +2,12 @@ package com.onlineFoodPlatform.cartservice.controller;
 
 import com.onlineFoodPlatform.cartservice.dto.CartItemDto;
 import com.onlineFoodPlatform.cartservice.dto.CartRequest;
+import com.onlineFoodPlatform.cartservice.model.Cart;
 import com.onlineFoodPlatform.cartservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/cart")
@@ -28,6 +31,11 @@ public class CartController {
     public String deleteCart(@PathVariable long cart_id){
         cartService.deleteCart(cart_id);
         return "Cart successfully deleted";
+    }
+
+    @GetMapping("/{cart_id}")
+    public Optional<Cart> getCart(@PathVariable long cart_id){
+        return cartService.getCart(cart_id);
     }
 
 }
