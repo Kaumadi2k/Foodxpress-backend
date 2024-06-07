@@ -6,6 +6,7 @@ import { assets } from '../../assets/assets'
 import { listCategory } from '../../services/productService'
 import { Search } from '@mui/icons-material'
 import Product from '../../components/Product'
+import Navbar from '../../components/Navbar/Navbar'
 
 
 
@@ -22,6 +23,8 @@ const Home = () => {
   }, [])
   
   return (
+   <div> 
+    <Navbar/>
     <div className='homeContent'>
     <Card sx={{display:'flex',padding:2,boxShadow:'none'}}>
       <Box sx={{display:'flex', flexDirection:'column', bgcolor:'primary.main', borderTopLeftRadius:8, borderBottomLeftRadius:8}}>
@@ -80,6 +83,7 @@ const Home = () => {
     </Grid>
     
     </div>
+  </div>
   )
 }
 
