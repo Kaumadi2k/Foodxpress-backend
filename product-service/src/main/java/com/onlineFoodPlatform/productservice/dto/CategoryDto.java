@@ -12,9 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class CategoryDto {
     private String categoryName;
-    private String categoryDescription;
     private MultipartFile categoryImg;
 
-    public CategoryDto(String categoryName, String categoryDescription) {
+    public CategoryDto(String categoryName, String imgUrl) {
     }
 }

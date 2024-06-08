@@ -1,11 +1,8 @@
 package com.onlineFoodPlatform.productservice.controller;
 
-import com.onlineFoodPlatform.productservice.dto.CategoryDto;
 import com.onlineFoodPlatform.productservice.dto.CategoryResponse;
 import com.onlineFoodPlatform.productservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +16,8 @@ public class CategoryController {
 
     private final CategoryService categoryService;
     @PostMapping(consumes = "multipart/form-data")
-    public String addCategory(@RequestParam("categoryName") String categoryName,@RequestParam("categoryDescription") String categoryDescription,@RequestParam("file") MultipartFile file){
-        categoryService.addCategory(categoryName,categoryDescription,file);
+    public String addCategory(@RequestParam("categoryName") String categoryName,@RequestParam("file") MultipartFile file){
+        categoryService.addCategory(categoryName,file);
         return "Product Category added successfully";
     }
 
@@ -29,8 +26,8 @@ public class CategoryController {
         return categoryService.getAllCategory();
     }
 
-    @GetMapping("/{id}")
-    public CategoryDto getCategoryById(@PathVariable String categoryId){
+    @GetMapping("/{categoryId}")
+    public CategoryResponse getCategoryById(@PathVariable long categoryId){
         return categoryService.getCategoryById(categoryId);
     }
 

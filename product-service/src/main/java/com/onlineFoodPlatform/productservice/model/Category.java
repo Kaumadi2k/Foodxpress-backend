@@ -1,21 +1,25 @@
 package com.onlineFoodPlatform.productservice.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value = "category")
+import java.util.Set;
+
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
+@Table(name = "category")
 public class Category {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String categoryName;
-    private String categoryDescription;
+    @OneToMany(mappedBy = "category")
+    private Set<Product> productSet;
     private String imgUrl;
 }

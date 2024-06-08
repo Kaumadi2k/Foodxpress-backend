@@ -25,7 +25,7 @@ public class ProductController {
             @RequestParam("productName") String productName,
             @RequestParam("productDescription") String productDescription,
             @RequestParam("pricePerUnit") BigDecimal pricePerUnit,
-            @RequestParam("categoryId") String categoryId,
+            @RequestParam("categoryId") long categoryId,
             @RequestParam("priceUnit") String priceUnit,
             @RequestParam("image") MultipartFile image){
         productService.createProduct(productName,productDescription,pricePerUnit,categoryId,priceUnit,image);
@@ -39,7 +39,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductResponse getProduct(@PathVariable String id){
+    public ProductResponse getProduct(@PathVariable long id){
         return productService.getProduct(id);
     }
 
@@ -51,13 +51,13 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@PathVariable String id){
+    public void deleteProduct(@PathVariable long id){
         productService.deleteProduct(id);
     }
 
     @GetMapping("/byCategory")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductResponse> getProductByCategory(@RequestParam("categoryId") String categoryId){
+    public List<ProductResponse> getProductByCategory(@RequestParam("categoryId") long categoryId){
         return productService.getProductByCategory(categoryId);
     }
 

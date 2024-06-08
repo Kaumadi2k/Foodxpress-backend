@@ -18,11 +18,11 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final FileStorageService fileStorageService;
 
-    public void addCategory(String categoryName, String categoryDescription, MultipartFile file){
+    public void addCategory(String categoryName, MultipartFile file){
         String fileName = fileStorageService.storeFile(file,"category");
         Category category = Category.builder()
                 .categoryName(categoryName)
-                .categoryDescription(categoryDescription)
+                //.categoryDescription(categoryDescription)
                 .imgUrl(fileName)
                 .build();
 
@@ -41,16 +41,20 @@ public class CategoryService {
                 .toUriString();
         return CategoryResponse.builder()
                 .categoryName(category.getCategoryName())
-                .categoryDescription(category.getCategoryDescription())
+                //.categoryDescription(category.getCategoryDescription())
                 .imgUrl(imgPath)
                 .build();
     }
 
-    public CategoryDto getCategoryById(String categoryId){
+    public CategoryResponse getCategoryById(long categoryId){
         Optional<Category> category = categoryRepository.findById(categoryId);
-        return new CategoryDto(
-                category.get().getCategoryName(),
-                category.get().getCategoryDescription()
-        );
+        String imgPath = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/v1/files/category/")
+                .path(category.get().getImgUrl())
+                .toUriString();
+        return CategoryResponse.builder()
+                .categoryName(category.get().getCategoryName())
+                .imgUrl(imgPath)
+                .build();
     }
 }

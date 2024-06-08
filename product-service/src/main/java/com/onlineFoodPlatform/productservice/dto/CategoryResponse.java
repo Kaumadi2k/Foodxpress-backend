@@ -12,6 +12,5 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class CategoryResponse {
     private String categoryName;
-    private String categoryDescription;
     private String imgUrl;
 }

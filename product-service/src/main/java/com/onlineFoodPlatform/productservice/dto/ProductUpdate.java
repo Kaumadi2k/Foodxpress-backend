@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductUpdate {
-    private String id;
+    private long id;
     private String name;
     private String description;
     private BigDecimal pricePerUnit;
-    private String categoryId;
+    private long categoryId;
     private String productUnit;
 }
