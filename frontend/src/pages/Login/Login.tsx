@@ -1,17 +1,35 @@
 import React from 'react'
-import { Container, Box, Card } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, TextField, Typography } from '@mui/material'
+import './Login.css'
+import { assets } from '../../assets/assets'
 
 const Login = () => {
   return (
-    <Container style={{marginTop:'50px',marginBottom:'50px'}}>
-      <Box sx={{ bgcolor: 'white', height: '80vh', boxShadow:'0 0 10px rgba(0, 0, 0, 0.1)',borderRadius:'10px' }}>
-        <Card>
-          <Box sx={{display:'flex', flexDirection:'column', alignItems:'center',justifyContent:'center',height:'100%'}}>
-            <h1>Login</h1>
+    <Box
+      border='1px solid black'
+      display='flex'
+      height='100vh'
+      alignItems='center'
+      justifyContent='center'
+    >
+      <Card className='loginCard'>
+        <CardContent className='cardContent'>
+          <Box padding='10px'>
+            <Typography variant='h5'>Login</Typography>
           </Box>
-        </Card>
-      </Box>
-    </Container>
+          <Box padding='10px'>
+            <TextField required label="Email"></TextField>
+          </Box>
+          <Box padding='10px'>
+            <TextField required label="Password" type='password'></TextField>
+          </Box>
+        </CardContent>
+        <CardMedia
+        component='img'
+        image={assets.header_img}
+        style={{width:'30%',borderRadius:'0px'}}/>
+      </Card>
+    </Box>
   )
 }
 

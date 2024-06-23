@@ -30,4 +30,11 @@ public class Routes {
                 .route(RequestPredicates.path("/api/v1/cart/**"), HandlerFunctions.http("http://localhost:8081"))
                 .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> userServiceRoute(){
+        return GatewayRouterFunctions.route("user_Service")
+                .route(RequestPredicates.path("api/v1/user/**"), HandlerFunctions.http("http://localhost:8082"))
+                .build();
+    }
 }

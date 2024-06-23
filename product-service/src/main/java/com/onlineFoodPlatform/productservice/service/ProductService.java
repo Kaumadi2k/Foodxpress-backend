@@ -1,47 +1,37 @@
 package com.onlineFoodPlatform.productservice.service;
 
-import com.onlineFoodPlatform.productservice.dto.ProductRequest;
 import com.onlineFoodPlatform.productservice.dto.ProductResponse;
-import com.onlineFoodPlatform.productservice.dto.ProductUpdate;
 import com.onlineFoodPlatform.productservice.model.Category;
 import com.onlineFoodPlatform.productservice.model.Product;
 import com.onlineFoodPlatform.productservice.repository.CategoryRepository;
 import com.onlineFoodPlatform.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor //in compile time create the all the required constructors
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final FileStorageService fileStorageService;
     private final CategoryRepository categoryRepository;
 
-    public void createProduct(String productName, String productDescription, BigDecimal pricePerUnit, long categoryId, String priceUnit, MultipartFile image){
-        String imageName = fileStorageService.storeFile(image,"product");
+    public void createProduct(Product product){
 
-        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+        Optional<Category> categoryOptional = categoryRepository.findById(product.getCategory().getId());
         Category category = categoryOptional.get();
-
-        Product product = Product.builder()
-                .name(productName)
-                .description(productDescription)
-                .pricePerUnit(pricePerUnit)
-                .productUnit(priceUnit)
+        Product product1 = Product.builder()
+                .name(product.getName())
+                .description(product.getDescription())
+                .pricePerUnit(product.getPricePerUnit())
+                .productUnit(product.getProductUnit())
                 .category(category)
-                .imageUrl(imageName)
+                .imageUrl(product.getImageUrl())
                 .build();
 
-        productRepository.save(product);
+        productRepository.save(product1);
     }
 
     public List<ProductResponse> getAllProducts(){
@@ -52,11 +42,6 @@ public class ProductService {
     }
 
     private ProductResponse mapToProductResponse(Product product) {
-        String imgPath = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/v1/files/product/")
-                .path(product.getImageUrl())
-                .toUriString();
-
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -64,7 +49,7 @@ public class ProductService {
                 .description(product.getDescription())
                 .categoryId(product.getCategory().getId())
                 .productUnit(product.getProductUnit())
-                .imgUrl(imgPath)
+                .imgUrl(product.getImageUrl())
                 .build();
     }
 
@@ -83,13 +68,18 @@ public class ProductService {
 
     }
 
-    public void updateProduct(ProductUpdate productUpdate){
-        Optional<Product> product = productRepository.findById(productUpdate.getId());
-        product.get().setName(productUpdate.getName());
-        product.get().setDescription(productUpdate.getDescription());
-        product.get().setPricePerUnit(productUpdate.getPricePerUnit());
+    public void updateProduct(Product product){
+        Optional<Product> OptionalProduct = productRepository.findById(product.getId());
+        Product product1 = OptionalProduct.get();
 
-        productRepository.save(product.get());
+        product1.setName(product.getName());
+        product1.setDescription(product.getDescription());
+        product1.setPricePerUnit(product.getPricePerUnit());
+        //product1.setCategory(product.getCategory().getId());
+        product1.setProductUnit(product.getProductUnit());
+        product1.setImageUrl(product.getImageUrl());
+
+        productRepository.save(product1);
     }
 
     public void deleteProduct(long id){

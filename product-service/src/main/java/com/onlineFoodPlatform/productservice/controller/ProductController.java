@@ -3,6 +3,7 @@ package com.onlineFoodPlatform.productservice.controller;
 import com.onlineFoodPlatform.productservice.dto.ProductRequest;
 import com.onlineFoodPlatform.productservice.dto.ProductResponse;
 import com.onlineFoodPlatform.productservice.dto.ProductUpdate;
+import com.onlineFoodPlatform.productservice.model.Product;
 import com.onlineFoodPlatform.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,16 +20,10 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(
-            @RequestParam("productName") String productName,
-            @RequestParam("productDescription") String productDescription,
-            @RequestParam("pricePerUnit") BigDecimal pricePerUnit,
-            @RequestParam("categoryId") long categoryId,
-            @RequestParam("priceUnit") String priceUnit,
-            @RequestParam("image") MultipartFile image){
-        productService.createProduct(productName,productDescription,pricePerUnit,categoryId,priceUnit,image);
+    public void createProduct(Product product){
+        productService.createProduct(product);
     }
 
     @GetMapping
@@ -45,8 +40,8 @@ public class ProductController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void updateProduct(@RequestBody ProductUpdate productUpdate){
-        productService.updateProduct(productUpdate);
+    public void updateProduct(@RequestBody Product product){
+        productService.updateProduct(product);
     }
 
     @DeleteMapping("/{id}")
