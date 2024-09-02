@@ -19,7 +19,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String addCategory(Category category){
+    public String addCategory(@RequestBody Category category){
         categoryService.addCategory(category);
         return "Product Category added successfully";
     }

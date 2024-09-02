@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
+//@RequiredArgsConstructor
 public class ProductResponse {
     private long id;
     private String name;
@@ -18,6 +18,4 @@ public class ProductResponse {
     private String productUnit;
     private String imgUrl;
 
-    public ProductResponse(long id, String name, String description, BigDecimal pricePerUnit, String productUnit, long categoryId) {
-    }
 }

@@ -7,11 +7,13 @@ import com.onlineFoodPlatform.cartservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/cart")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class CartController {
 
     private final CartService cartService;
@@ -21,9 +23,9 @@ public class CartController {
         return "Cart created successfully";
     }
 
-    @PostMapping("/{cart_id}")
-    public String addProductToCart(@PathVariable long cart_id, @RequestBody CartItemDto cartItemDto){
-        cartService.addProductToCart(cart_id,cartItemDto);
+    @PostMapping("/{cartId}/{productId}")
+    public String addProductToCart(@PathVariable long cartId, @PathVariable long productId){
+        cartService.addProductToCart(cartId,productId);
         return "Product added to cart successfully";
     }
 
@@ -36,6 +38,11 @@ public class CartController {
     @GetMapping("/{cart_id}")
     public Optional<Cart> getCart(@PathVariable long cart_id){
         return cartService.getCart(cart_id);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Cart> getUserCarts(@PathVariable String userId){
+        return cartService.getUserCarts(userId);
     }
 
 }

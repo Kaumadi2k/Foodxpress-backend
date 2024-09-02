@@ -7,51 +7,36 @@ import com.onlineFoodPlatform.cartservice.model.Cart;
 import com.onlineFoodPlatform.cartservice.model.CartItem;
 import com.onlineFoodPlatform.cartservice.repository.CartItemRepository;
 import com.onlineFoodPlatform.cartservice.repository.CartRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final WebClient.Builder webClientBuilder;
-
-    public CartService(CartRepository cartRepository, CartItemRepository cartItemRepository, WebClient.Builder webClientBuilder) {
-        this.cartRepository = cartRepository;
-        this.cartItemRepository = cartItemRepository;
-        //this.webClient = webClient;
-        this.webClientBuilder = webClientBuilder;
-    }
+//    private final WebClient.Builder webClientBuilder;
 
     public void createCart(CartRequest cartRequest){
         Cart cart = new Cart();
-        cart.setCart_name(cartRequest.getCart_name());
-        cart.setUser_id(cartRequest.getUser_id());
+        cart.setCart_name(cartRequest.getCartName());
+        cart.setUserId(cartRequest.getUserId());
 
         cartRepository.save(cart);
-
     }
 
-    public void addProductToCart(long cart_id,CartItemDto cartItemDto){
-        Optional<Cart> optionalCart = cartRepository.findById(cart_id);
+    public void addProductToCart(long cartId,long productId){
+        Optional<Cart> optionalCart = cartRepository.findById(cartId);
         if(optionalCart.isPresent()){
           Cart cart = optionalCart.get();
-
-        //Get product details from product microservice to add the product to cart
-            ProductResponse productResponse = webClientBuilder.build().get()
-                    .uri("http://product-service/api/v1/product/"+cartItemDto.getProduct_id())
-                    .retrieve()
-                    .bodyToMono(ProductResponse.class)
-                    .block();
-
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct_id(productResponse.getId());
-            cartItem.setProduct_name(productResponse.getName());
-            cartItem.setQuantity(cartItemDto.getQuantity());
-            cartItem.setPrice(productResponse.getPricePerUnit());
+          CartItem cartItem = new CartItem();
+          cartItem.setProduct_id(productId);
+          cartItem.setQuantity(1);
 
             //add cartItem to cart
             cart.getCartItemList().add(cartItem);
@@ -71,5 +56,11 @@ public class CartService {
     public Optional<Cart> getCart(long cart_id){
         Optional<Cart> cart =  cartRepository.findById(cart_id);
         return cart;
+    }
+
+    public List<Cart> getUserCarts(String userId){
+       List<Cart> carts;
+        carts = cartRepository.findByUserId(userId);
+        return carts;
     }
 }

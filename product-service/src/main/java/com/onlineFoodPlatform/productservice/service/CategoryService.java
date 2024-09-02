@@ -31,8 +31,8 @@ public class CategoryService {
 
     private CategoryResponse mapToCategoryResponse(Category category) {
         return CategoryResponse.builder()
+                .categoryId(category.getId())
                 .categoryName(category.getCategoryName())
-                //.categoryDescription(category.getCategoryDescription())
                 .imgUrl(category.getImgUrl())
                 .build();
     }
